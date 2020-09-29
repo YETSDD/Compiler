@@ -4,12 +4,13 @@
 %}
 
 %token LC RC LB RB COLON COMMA
-%token STRING NUMBER
+%token STRING NUMBER ERROR
 %token TRUE FALSE VNULL
 %%
 
 Json:
       Value
+    | ERROR error{puts("wrong number, recovered");}
     ;
 Value:
       Object 
@@ -19,6 +20,7 @@ Value:
     | TRUE
     | FALSE
     | VNULL
+    | ERROR error {puts("wrong number, recovered");}
     | Object STRING error {puts("misplaced value, recovered");}
     ;
 Object:

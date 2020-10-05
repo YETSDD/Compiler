@@ -3,8 +3,7 @@
 %}
 %option yylineno
 %option noyywrap
-TYPE int | float | char
-STRUCT struct
+
 IF if
 ELSE else
 WHILE while
@@ -19,24 +18,23 @@ GT >
 GE >=
 NE !=
 EQ ==
-PLUS +
+PLUS \+
 MINUS -
-MUL *
-DIV /
+MUL \*
+DIV \/
 AND &&
-OR ||
+OR \|\|
 NOT !
-LP (
-RP )
-LB [
-RB ]
-LC {
-RC }
+LP \(
+RP \)
+LB \[
+RB \]
+LC \{
+RC \}
 AERROR .
 %%
-
-{TYPE} {return TYPE;}
-{STRUCT} {return STRUCT;}
+int|float|char {return TYPE;}
+struct {return STRUCT;}
 {IF} {return IF;}
 {ELSE} {return ELSE;}
 {WHILE} {return WHILE;}
@@ -66,5 +64,4 @@ AERROR .
 {RC} {return RC;}
 {AERROR} {printf("Error type A at Line %d: Unknown characters \’%s\’\ n",yylineno, yytext);}
 
-%%
 

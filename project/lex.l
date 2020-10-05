@@ -11,7 +11,7 @@ ELSE else
 WHILE while
 RETURN return
 DOT \.
-SEMI ;
+SEMI \;
 COMMA ,
 ASSIGN =
 LT <
@@ -22,17 +22,17 @@ NE !=
 EQ ==
 PLUS +
 MINUS -
-MUL *
-DIV /
+MUL \*
+DIV \/
 AND &&
-OR ||
+OR \|\|
 NOT !
-LP (
+LP \(
 RP )
-LB [
-RB ]
-LC {
-RC }
+LB \[
+RB \]
+LC \{
+RC \}
 AERROR .
 %%
 {TYPE} {return TYPE;}

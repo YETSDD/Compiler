@@ -8,58 +8,73 @@
 %token LP RP LC RC LB RB 
 %%
 
-Json:
-      Value
-    | ERROR error{puts("wrong number, recovered");}
-    ;
-Value:
-      Object 
-    | Array
-    | STRING
-    | NUMBER
-    | TRUE
-    | FALSE
-    | VNULL
-    | ERROR error {puts("wrong number, recovered");}
-    | Object STRING error {puts("misplaced value, recovered");}
-    ;
-Object:
-      LC RC
-    | LC Members RC
-    | LC Members RB error {puts("unmatched right brace, recovered");}
-    | LC Members COMMA error {puts("comma instead brace, recovered");}
-    | LC Members error {puts("missing right brace, recovered");}
-    ;
-Members:
-      Member
-    | Member COMMA Members
-    | Member Members error{puts("missing comma, recovered");}
-    | Member COMMA error {puts("extra comma, recovered");}
-    | Member COLON Members error {puts("colon instead comma, recovered");}
-    ;
-Member:
-      STRING COLON Value
-    | Value COLON Value error {puts("no_quoted key, recovered");}
-    | STRING error {puts("wrong colon, recovered");}
-    | STRING COMMA Value error {puts("comma instead colon, recovered");}
-    | STRING COMMA Value COMMA error {puts("extra comma, recovered");};
-Array:
-      LB RB
-    | LB Values RB
-    | LB Values RB RB error {puts("extra close, recovered");}
-    | LB Values RC error { puts("unmatched right bracket, recovered"); }
-    | LB Values COMMA error {puts("comma instead bracket, recovered");}
-    | LB Values RB COMMA error{puts("comma after close, recovered");}  
-    | LB Values error {puts("unclosed array, recovered");}
-    ;
-Values:
-      Value
-    | Value COMMA Values
-    | Value COLON Values error {puts("colon instead comma, recovered");}
-    | Values COMMA COMMA error {puts("extra comma, recovered");}
-    | COMMA Values error {puts("missing value, recovered");}
-    | Value COMMA error {puts("extra comma, recovered");}
-    ;
+Program: ExtDefList;
+ExtDefList: ExtDef ExtDefList
+| $;
+ExtDef: Specifier ExtDecList SEMI
+| Specifier SEMI
+| Specifier FunDec CompSt;
+ExtDecList: VarDec
+| VarDec COMMA ExtDecList;
+/* specifier */
+Specifier: TYPE
+| StructSpecifier;
+StructSpecifier: STRUCT ID LC DefList RC
+| STRUCT ID;
+/* declarator */
+VarDec: ID
+| VarDec LB INT RB;
+FunDec: ID LP VarList RP
+| ID LP RP;
+VarList: ParamDec COMMA VarList
+| ParamDec;
+ParamDec: Specifier VarDec;
+/* statement */
+CompSt: LC DefList StmtList RC;
+StmtList: Stmt StmtList
+| $;
+Stmt: Exp SEMI
+| CompSt
+| RETURN Exp SEMI
+| IF LP Exp RP Stmt
+| IF LP Exp RP Stmt ELSE Stmt
+| WHILE LP Exp RP Stmt;
+/* local definition */
+DefList: Def DefList
+| $;
+Def: Specifier DecList SEMI;
+DecList: Dec
+| Dec COMMA DecList;
+Dec: VarDec
+| VarDec ASSIGN Exp;
+/* Expression */
+Exp: Exp ASSIGN Exp
+| Exp AND Exp
+| Exp OR Exp
+| Exp LT Exp
+| Exp LE Exp
+| Exp GT Exp
+| Exp GE Exp
+| Exp NE Exp
+| Exp EQ Exp
+| Exp PLUS Exp
+| Exp MINUS Exp
+| Exp MUL Exp
+| Exp DIV Exp
+| LP Exp RP
+| MINUS Exp
+| NOT Exp
+| ID LP Args RP
+| ID LP RP
+| Exp LB Exp RB
+| Exp DOT ID
+| ID
+| INT
+| FLOAT
+| CHAR;
+Args: Exp COMMA Args
+| Exp;
+
 %%
 
 void yyerror(const char *s){

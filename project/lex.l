@@ -3,7 +3,8 @@
 %}
 %option yylineno
 %option noyywrap
-TYPE int | float | char
+
+TYPE int|float|char
 STRUCT struct
 IF if
 ELSE else
@@ -34,7 +35,6 @@ LC {
 RC }
 AERROR .
 %%
-
 {TYPE} {return TYPE;}
 {STRUCT} {return STRUCT;}
 {IF} {return IF;}
@@ -65,6 +65,5 @@ AERROR .
 {LC} {return LC;}
 {RC} {return RC;}
 {AERROR} {printf("Error type A at Line %d: Unknown characters \’%s\’\ n",yylineno, yytext);}
-
 %%
 

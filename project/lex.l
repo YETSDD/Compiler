@@ -20,7 +20,7 @@ GT >
 GE >=
 NE !=
 EQ ==
-PLUS +
+PLUS \+
 MINUS -
 MUL \*
 DIV \/
@@ -28,7 +28,7 @@ AND &&
 OR \|\|
 NOT !
 LP \(
-RP )
+RP \)
 LB \[
 RB \]
 LC \{

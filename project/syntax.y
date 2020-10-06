@@ -2,15 +2,23 @@
     #include"lex.yy.c"
     void yyerror(const char*);
 %}
-%token INT FLOAT CHAR ID TYPE STRUCT
-%token IF ELSE WHILE RETURN DOT SEMI COMMA ASSIGN 
+%token INT FLOAT CHAR ID 
+%token TYPE STRUCT IF ELSE WHILE RETURN DOT SEMI COMMA ASSIGN 
 %token LT LE GT GE NE EQ PLUS MINUS MUL DIV AND OR NOT
 %token LP RP LC RC LB RB 
+
+%right ASSIGN
+%left OR
+%left AND 
+%left PLUS MINUS
+%left STAR DIV
+%right NOT
+%left LP RP LC RC LB RB DOT 
 %%
 
 Program: ExtDefList;
 ExtDefList: ExtDef ExtDefList
-| $;
+|{};
 ExtDef: Specifier ExtDecList SEMI
 | Specifier SEMI
 | Specifier FunDec CompSt;
@@ -32,7 +40,7 @@ ParamDec: Specifier VarDec;
 /* statement */
 CompSt: LC DefList StmtList RC;
 StmtList: Stmt StmtList
-| $;
+|{};
 Stmt: Exp SEMI
 | CompSt
 | RETURN Exp SEMI
@@ -41,7 +49,7 @@ Stmt: Exp SEMI
 | WHILE LP Exp RP Stmt;
 /* local definition */
 DefList: Def DefList
-| $;
+|{};
 Def: Specifier DecList SEMI;
 DecList: Dec
 | Dec COMMA DecList;

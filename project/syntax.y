@@ -2,6 +2,7 @@
     #include"lex.yy.c"
     void yyerror(const char*);
     #include <list>
+    using namespace std;
     struct node{
 	int line;
 	char * name;
@@ -13,13 +14,20 @@
 	char cval;
 	}
     }
-	struct node* createNode(char* name,list<node> childs);
+	struct node* createNode(char* name, list<node> childs);
+    struct node* createNode(char* name, int line);
 	void travesal(struct node*,int level);
 %}
-%token INT FLOAT CHAR ID 
-%token TYPE STRUCT IF ELSE WHILE RETURN DOT SEMI COMMA ASSIGN 
-%token LT LE GT GE NE EQ PLUS MINUS MUL DIV AND OR NOT
-%token LP RP LC RC LB RB 
+
+%union{
+    struct node* n;
+}
+
+%token <n> INT FLOAT CHAR ID 
+%token <n> TYPE STRUCT IF ELSE WHILE RETURN DOT SEMI COMMA ASSIGN 
+%token <n> LT LE GT GE NE EQ PLUS MINUS MUL DIV AND OR NOT
+%token <n> LP RP LC RC LB RB 
+%type  <n> Program ExtDefList ExtDef ExtDecList Specifire StructSpecifire OptTag  Tag VarDec  FunDec VarList ParamDec Compst StmtList Stmt DefList Def DecList Dec Exp Args
 
 %right ASSIGN
 %left OR
@@ -104,9 +112,46 @@ void yyerror(const char *s){
 }
 
 struct node* createNode(char* name,list<node> childs){
-
+    struct node *a=(struct node *)malloc(sizeof(struct node));
+    struct node *temp=(struct node *)malloc(sizeof(struct node));
+    a->name = name;
+    a->child = childs;//todo
+    a->line=childs.begin().line;
+    return a;
 }
 
+struct node* createNode(char * name, int line){
+    struct node *a=(struct node *)malloc(sizeof(struct node));
+    a->line = line;
+    if((!strcmp(a->name,"ID"))||(!strcmp(a->name,"TYPE"))){
+        char* t=(char*)malloc(sizeof(char* )*40);
+        strcpy(t,yytext);
+        a->id=t;
+    }
+    else if(!strcmp(a->name,"INTEGER")) {a->ival=atoi(yytext);}
+    else if(!strcmp(a->name,"FLOAT")) {a->fval=atof(yytext);}
+    else if(!strcmp(a->name,"CHAR")) {a->cval=yytext;}
+}
+
+void travesal(struct node* a, int level){
+    if(a!=NULL){
+        for(int i=0;i<level;++i) printf("   ");
+        if(a->line!=-1){
+            printf("%s ",a->name);
+            if((!strcmp(a->name,"ID"))||(!strcmp(a->name,"TYPE")))printf(":%s ",a->idtype);
+            else if(!strcmp(a->name,"INTEGER"))printf(":%d",a->ival);
+            else if(!strcmp(a->name,"FLOAT"))printf(":%f",a->fval);
+            else if(!strcmp(a->name,"CHAR"))printf(":%s",a->cval);
+            else printf("(%d)",a->line);
+        }
+        printf("\n");
+        
+	    list<node>::iterator itor=a->child.begin();  
+        while(itor!=a->child.end){
+            travesal(itor,level+1);
+        } 
+    }
+}
 int main(int argc, char **argv){
     if(argc != 2) {
         fprintf(stderr, "Usage: %s <file_path>\n", argv[0]);

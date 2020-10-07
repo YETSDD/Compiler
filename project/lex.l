@@ -4,11 +4,11 @@
 %}
 %option yylineno
 %option noyywrap
-DEXINT [1-9][0-9]*|0
+DECINT [1-9][0-9]*|0
 HEXINT 0[Xx][1-9A-Fa-f][0-9A-Fa-f]*
 FLOAT DEXINT.[0-9]*
-CHAR [A-Za-z]*|(0[Xx](0|1[0-9]{0,2}|2[0-4]?[0-9]?|25[0-5]?|[3-9][0-9]?))
-ID [A-Za-z_][0-9A-Za-z_]
+CHAR '[A-Za-z]'|(0[Xx][0-9A-Fa-f]{2,2}
+ID [_A-Za-z][_0-9A-Za-z]*
 TYPE int|float|char
 STRUCT struct
 IF if
@@ -39,16 +39,20 @@ RB \]
 LC \{
 RC \}
 AERROR .
+HEXERROR 0(X|x)[a-zA-Z0-9]*
 %%
-{TYPE} {return TYPE;}
-{STRUCT} {return STRUCT;}
-{IF} {return IF;}
+{TYPE} {printf("type %s\n",yytext);return TYPE;}
+{STRUCT} {printf("STRUCT\n");return STRUCT;}
+{DECINT} {printf("DEC %s\n",yytext);return INT;}
+{HEXINT} {printf("HEX\n");return INT;}
+{FLOAT} {printf("FLOAT\n");return FLOAT;}
+{IF} {printf("IF\n");return IF;}
 {ELSE} {return ELSE;}
 {WHILE} {return WHILE;}
 {RETURN} {return RETURN;}
 {DOT} {return DOT;}
-{SEMI} {return SEMI;}
-{COMMA} {return COMMA;}
+{SEMI} {printf("SEMI\n");return SEMI;}
+{COMMA} {printf("COMMA\n");return COMMA;}
 {ASSIGN} {return ASSIGN;}
 {LT} {return LT;}
 {LE} {return LE;}
@@ -63,13 +67,18 @@ AERROR .
 {AND} {return AND;}
 {OR} {return OR;}
 {NOT} {return NOT;}
-{LP} {return LP;}
-{RP} {return RP;}
-{LB} {return LB;}
-{RB} {return RB;}
-{LC} {return LC;}
-{RC} {return RC;}
+{LP} {printf("PBC\r");return LP;}
+{RP} {printf("PBC\r");return RP;}
+{LB} {printf("PBC\r");return LB;}
+{RB} {printf("PBC\r");return RB;}
+{LC} {printf("PBC\r");return LC;}
+{RC} {printf("PBC\r");return RC;}
 "//" {char c; while((c=input())!="\n");}
+" " {}
+"\r\n" {}
+{CHAR} {printf("CHAR\n");return CHAR;}
+{ID} {printf("ID %s\n",yytext);return ID;}
 {AERROR} {printf("Error type A at Line %d: Unknown characters \'%s\'\n",yylineno, yytext);}
+{HEXERROR} {printf("Error type A at Line %d: Invalid hex \'%s\'\n",yylineno, yytext);}
 %%
 

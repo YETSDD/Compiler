@@ -1,6 +1,20 @@
 %{
     #include"lex.yy.c"
     void yyerror(const char*);
+    #include <list>
+    struct node{
+	int line;
+	char * name;
+	list<node> child;
+	union{
+	char* id;
+	int ival;
+	float fval;
+	char cval;
+	}
+    }
+	struct node* createNode(char* name,list<node> childs);
+	void travesal(struct node*,int level);
 %}
 %token INT FLOAT CHAR ID 
 %token TYPE STRUCT IF ELSE WHILE RETURN DOT SEMI COMMA ASSIGN 
@@ -18,21 +32,21 @@
 
 Program: ExtDefList;
 ExtDefList: ExtDef ExtDefList
-|{};
+|;
 ExtDef: Specifier ExtDecList SEMI
 | Specifier SEMI
 | Specifier FunDec CompSt;
 ExtDecList: VarDec
 | VarDec COMMA ExtDecList;
 /* specifier */
-Specifier: TYPE
+Specifier: TYPE 
 | StructSpecifier;
 StructSpecifier: STRUCT ID LC DefList RC
 | STRUCT ID;
 /* declarator */
 VarDec: ID
 | VarDec LB INT RB;
-FunDec: ID LP VarList RP
+FunDec: ID LP VarList RP {printf("FUNC");}
 | ID LP RP;
 VarList: ParamDec COMMA VarList
 | ParamDec;
@@ -40,7 +54,7 @@ ParamDec: Specifier VarDec;
 /* statement */
 CompSt: LC DefList StmtList RC;
 StmtList: Stmt StmtList
-|{};
+|;
 Stmt: Exp SEMI
 | CompSt
 | RETURN Exp SEMI
@@ -49,7 +63,7 @@ Stmt: Exp SEMI
 | WHILE LP Exp RP Stmt;
 /* local definition */
 DefList: Def DefList
-|{};
+|;
 Def: Specifier DecList SEMI;
 DecList: Dec
 | Dec COMMA DecList;
@@ -87,6 +101,10 @@ Args: Exp COMMA Args
 
 void yyerror(const char *s){
     printf("syntax error: ");
+}
+
+struct node* createNode(char* name,list<node> childs){
+
 }
 
 int main(int argc, char **argv){

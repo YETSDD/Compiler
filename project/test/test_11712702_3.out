@@ -1,0 +1,70 @@
+Program(1)
+  ExtDefList(1)
+    ExtDef(1)
+      Specifier(1)
+        TYPE: int
+      ExtDecList(1)
+        VarDec(1)
+          ID: a
+      SEMI
+    ExtDefList(2)
+      ExtDef(2)
+        Specifier(2)
+          TYPE: int
+        FunDec(2)
+          ID: test_11712702_3
+          LP
+          RP
+        CompSt(3)
+          LC
+          StmtList(4)
+            Stmt(4)
+              Exp(4)
+                Exp(4)
+                  ID: a
+                ASSIGN
+                Exp(4)
+                  INT: 0
+              SEMI
+            StmtList(5)
+              Stmt(5)
+                WHILE
+                LP
+                Exp(5)
+                  INT: 1
+                RP
+                Stmt(5)
+                  CompSt(5)
+                    LC
+                    StmtList(6)
+                      Stmt(6)
+                        Exp(6)
+                          Exp(6)
+                            ID: a
+                          ASSIGN
+                          Exp(6)
+                            Exp(6)
+                              ID: a
+                            PLUS
+                            Exp(6)
+                              INT: 1
+                        SEMI
+                      StmtList(7)
+                        Stmt(7)
+                          IF
+                          LP
+                          Exp(7)
+                            Exp(7)
+                              ID: a
+                            ASSIGN
+                            Exp(7)
+                              INT: 10
+                          RP
+                    RC
+              StmtList(10)
+                Stmt(10)
+                  RETURN
+                  Exp(10)
+                    INT: 0
+                  SEMI
+          RC

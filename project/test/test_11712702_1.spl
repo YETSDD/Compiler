@@ -1,0 +1,6 @@
+int test_11712702_1()
+{
+  int i = 0xffg, j = 1;
+  return i
+
+}

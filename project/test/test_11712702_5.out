@@ -1,0 +1,2 @@
+Error type A at Line 3 : Invalid hex character '\x0aaa'
+Error type A at Line 4 : Unknown lexeme 0O00

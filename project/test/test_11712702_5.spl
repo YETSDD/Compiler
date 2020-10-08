@@ -1,0 +1,7 @@
+int test_11712702_5(int b_0, int s)
+{
+  char b = '\x0aaa';
+  char 0O00 = 'a';
+  
+  return s;
+}

@@ -10,7 +10,6 @@ BISON=bison
 	$(BISON) -t -d syntax.y
 
 splc:  .syntax .lex
-	echo over
 	@mkdir -p bin
 	touch bin/splc
 	@chmod +x bin/splc

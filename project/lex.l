@@ -151,12 +151,8 @@ struct node* createLeafNode(char * name, int line,char* value){
         }
     else if(!strcmp(a->name,"CHAR")) {
         char*t=(char*) malloc(sizeof(char*)*40);
-        char*temp=(char*) malloc(sizeof(char*)*40);
         strcpy(t,value);
-        for(int i=1;t[i]!='\'';i++){
-            temp[i-1]=t[i];
-        }
-        a->cval=temp;
+        a->cval=t;
         }
     return a;
 }

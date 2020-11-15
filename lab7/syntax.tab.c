@@ -435,9 +435,9 @@ static const yytype_uint8 yyrline[] =
 {
        0,    14,    14,    15,    18,    19,    20,    21,    22,    23,
       24,    25,    26,    29,    30,    31,    32,    33,    36,    37,
-      38,    39,    40,    43,    44,    45,    46,    47,    49,    50,
-      51,    52,    53,    54,    55,    58,    59,    60,    61,    62,
-      63
+      38,    39,    40,    43,    50,    51,    52,    53,    55,    56,
+      60,    61,    62,    63,    64,    67,    76,    77,    78,    79,
+      80
 };
 #endif
 
@@ -1287,13 +1287,13 @@ yyreduce:
 
   case 6:
 #line 20 "syntax.y" /* yacc.c:1646  */
-    {printf("string: %s\n",(char*)(yyvsp[0]));(yyval) = (yyvsp[0]);}
+    {printf("string: %s\n",(yyvsp[0]));(yyval) = (yyvsp[0]);}
 #line 1292 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
 #line 21 "syntax.y" /* yacc.c:1646  */
-    {printf("number\n");(yyval) = (yyvsp[0]);}
+    {printf("number: %s\n",(yyvsp[0]));(yyval) = (yyvsp[0]);}
 #line 1298 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1376,103 +1376,117 @@ yyreduce:
     break;
 
   case 23:
-#line 43 "syntax.y" /* yacc.c:1646  */
-    {printf("Member\n");}
-#line 1382 "syntax.tab.c" /* yacc.c:1646  */
+#line 44 "syntax.y" /* yacc.c:1646  */
+    {printf("Member\n");
+      struct ObjectMember *newMem = (struct ObjectMember*)malloc(sizeof(struct ObjectMember));
+      newMem->key=(yyvsp[-2]);
+      newMem->value=(yyvsp[0]);
+      newMem->next=NULL;
+      }
+#line 1387 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 44 "syntax.y" /* yacc.c:1646  */
+#line 50 "syntax.y" /* yacc.c:1646  */
     {puts("no_quoted key, recovered");}
-#line 1388 "syntax.tab.c" /* yacc.c:1646  */
+#line 1393 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 45 "syntax.y" /* yacc.c:1646  */
+#line 51 "syntax.y" /* yacc.c:1646  */
     {puts("wrong colon, recovered");}
-#line 1394 "syntax.tab.c" /* yacc.c:1646  */
+#line 1399 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 46 "syntax.y" /* yacc.c:1646  */
+#line 52 "syntax.y" /* yacc.c:1646  */
     {puts("comma instead colon, recovered");}
-#line 1400 "syntax.tab.c" /* yacc.c:1646  */
+#line 1405 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 47 "syntax.y" /* yacc.c:1646  */
+#line 53 "syntax.y" /* yacc.c:1646  */
     {puts("extra comma, recovered");}
-#line 1406 "syntax.tab.c" /* yacc.c:1646  */
+#line 1411 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 50 "syntax.y" /* yacc.c:1646  */
-    {printf("Array\n");struct ArrayValue *newArray; newArray->value=(yyvsp[-1]);(yyval)= (yyvsp[-1]);}
-#line 1412 "syntax.tab.c" /* yacc.c:1646  */
+#line 57 "syntax.y" /* yacc.c:1646  */
+    {printf("Array\n");
+    struct ArrayValue *newArray=(struct ArrayValue*)malloc(sizeof(struct ArrayValue)); 
+    newArray->value=(yyvsp[-1]);(yyval)= (yyvsp[-1]);}
+#line 1419 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 51 "syntax.y" /* yacc.c:1646  */
+#line 60 "syntax.y" /* yacc.c:1646  */
     {puts("extra close, recovered");}
-#line 1418 "syntax.tab.c" /* yacc.c:1646  */
+#line 1425 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 52 "syntax.y" /* yacc.c:1646  */
+#line 61 "syntax.y" /* yacc.c:1646  */
     { puts("unmatched right bracket, recovered"); }
-#line 1424 "syntax.tab.c" /* yacc.c:1646  */
+#line 1431 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 53 "syntax.y" /* yacc.c:1646  */
+#line 62 "syntax.y" /* yacc.c:1646  */
     {puts("comma instead bracket, recovered");}
-#line 1430 "syntax.tab.c" /* yacc.c:1646  */
+#line 1437 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 54 "syntax.y" /* yacc.c:1646  */
+#line 63 "syntax.y" /* yacc.c:1646  */
     {puts("comma after close, recovered");}
-#line 1436 "syntax.tab.c" /* yacc.c:1646  */
+#line 1443 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 55 "syntax.y" /* yacc.c:1646  */
+#line 64 "syntax.y" /* yacc.c:1646  */
     {puts("unclosed array, recovered");}
-#line 1442 "syntax.tab.c" /* yacc.c:1646  */
+#line 1449 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 58 "syntax.y" /* yacc.c:1646  */
-    {printf("Values: %d\n",(char*)(yyvsp[0]));struct ArrayValue *newArray;newArray->value->string=(char *)(yyvsp[0]);}
-#line 1448 "syntax.tab.c" /* yacc.c:1646  */
+#line 68 "syntax.y" /* yacc.c:1646  */
+    {printf("Values: %s\n",(char*)(yyvsp[0]));
+    struct ArrayValue *newArray=(struct ArrayValue*)malloc(sizeof(struct ArrayValue));
+    struct JsonObject *newObj=(struct JsonObject*)malloc(sizeof(struct JsonObject));
+    char*t=(char*) malloc(sizeof(char*)*40);
+    strcpy(t,(yyvsp[0]));
+    newObj->string=t;
+	newArray->value=newObj;
+	printf("Values over");}
+#line 1462 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 60 "syntax.y" /* yacc.c:1646  */
+#line 77 "syntax.y" /* yacc.c:1646  */
     {puts("colon instead comma, recovered");}
-#line 1454 "syntax.tab.c" /* yacc.c:1646  */
+#line 1468 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 61 "syntax.y" /* yacc.c:1646  */
+#line 78 "syntax.y" /* yacc.c:1646  */
     {puts("extra comma, recovered");}
-#line 1460 "syntax.tab.c" /* yacc.c:1646  */
+#line 1474 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 62 "syntax.y" /* yacc.c:1646  */
+#line 79 "syntax.y" /* yacc.c:1646  */
     {puts("missing value, recovered");}
-#line 1466 "syntax.tab.c" /* yacc.c:1646  */
+#line 1480 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 63 "syntax.y" /* yacc.c:1646  */
+#line 80 "syntax.y" /* yacc.c:1646  */
     {puts("extra comma, recovered");}
-#line 1472 "syntax.tab.c" /* yacc.c:1646  */
+#line 1486 "syntax.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1476 "syntax.tab.c" /* yacc.c:1646  */
+#line 1490 "syntax.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1700,7 +1714,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 65 "syntax.y" /* yacc.c:1906  */
+#line 82 "syntax.y" /* yacc.c:1906  */
 
 
 void yyerror(const char *s){

@@ -17,8 +17,8 @@ Json:
 Value:
       Object  {$$ = $1;}
     | Array {$$ = $1;}
-    | STRING {printf("string: %s\n",(char*)$1);$$ = $1;}
-    | NUMBER {printf("number\n");$$ = $1;}
+    | STRING {printf("string: %s\n",$1);$$ = $1;}
+    | NUMBER {printf("number: %s\n",$1);$$ = $1;}
     | TRUE {$$ = $1;}
     | FALSE {$$ = $1;}
     | VNULL  {$$ = $1;}
@@ -40,14 +40,23 @@ Members:
     | Member COLON Members error {puts("colon instead comma, recovered");}
     ;
 Member:
-      STRING COLON Value {printf("Member\n");}
+      STRING COLON Value 
+      {printf("Member\n");
+      struct ObjectMember *newMem = (struct ObjectMember*)malloc(sizeof(struct ObjectMember));
+      newMem->key=$1;
+      newMem->value=$3;
+      newMem->next=NULL;
+      }
     | Value COLON Value error {puts("no_quoted key, recovered");}
     | STRING error {puts("wrong colon, recovered");}
     | STRING COMMA Value error {puts("comma instead colon, recovered");}
     | STRING COMMA Value COMMA error {puts("extra comma, recovered");};
 Array:
       LB RB 
-    | LB Values RB {printf("Array\n");struct ArrayValue *newArray; newArray->value=$2;$$= $2;}
+    | LB Values RB 
+    {printf("Array\n");
+    struct ArrayValue *newArray=(struct ArrayValue*)malloc(sizeof(struct ArrayValue)); 
+    newArray->value=$2;$$= $2;}
     | LB Values RB RB error {puts("extra close, recovered");}
     | LB Values RC error { puts("unmatched right bracket, recovered"); }
     | LB Values COMMA error {puts("comma instead bracket, recovered");}
@@ -55,7 +64,15 @@ Array:
     | LB Values error {puts("unclosed array, recovered");}
     ;
 Values:
-      Value {printf("Values: %d\n",(char*)$1);struct ArrayValue *newArray;newArray->value->string=(char *)$1;}
+    Value 
+    {printf("Values: %s\n",(char*)$1);
+    struct ArrayValue *newArray=(struct ArrayValue*)malloc(sizeof(struct ArrayValue));
+    struct JsonObject *newObj=(struct JsonObject*)malloc(sizeof(struct JsonObject));
+    char*t=(char*) malloc(sizeof(char*)*40);
+    strcpy(t,$1);
+    newObj->string=t;
+	newArray->value=newObj;
+	printf("Values over");}
     | Value COMMA Values 
     | Value COLON Values error {puts("colon instead comma, recovered");}
     | Values COMMA COMMA error {puts("extra comma, recovered");}

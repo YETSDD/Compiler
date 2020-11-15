@@ -1,0 +1,12 @@
+int test_11712702_9(int a[2], int b)
+{
+  char c = 'c';
+  if (a[0] > b)
+  {
+    return a[c];
+  }
+  else
+  {
+    return b;
+  }
+}

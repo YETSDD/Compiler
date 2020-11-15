@@ -1,0 +1,4 @@
+Error type 1 at Line 4: variable a is used without definition
+Error type 5 at Line 4: unmatching type int and error
+Error type 5 at Line 4: unmatching type int and error
+Error type 8 at Line 5: incompatiable return type

@@ -1,0 +1,17 @@
+struct Apple
+{
+  int weight;
+  float round;
+};
+struct Banana{
+  int weight1;
+  float round1;
+};
+int test_11712702_8()
+{
+  struct Apple aa;
+  struct Banana bb;
+  float aa = 1.0;
+
+  return aa.weight;
+}

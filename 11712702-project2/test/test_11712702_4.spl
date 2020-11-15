@@ -1,0 +1,10 @@
+float add(int a,int b){
+    return 0;
+}
+int test_11712702_1()
+{
+
+  int i=0,j=0,c[1][2];
+  i = j+ add(i,j);
+  return 0;
+}

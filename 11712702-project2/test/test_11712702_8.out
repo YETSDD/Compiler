@@ -1,0 +1,3 @@
+Error type 3 at Line 14: variable aa is redefined
+Error type 13 at Line 16: non-structure variable
+Error type 8 at Line 16: incompatiable return type

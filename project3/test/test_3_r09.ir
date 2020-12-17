@@ -1,0 +1,148 @@
+FUNCTION mod :
+PARAM v1
+PARAM v2
+t1 := v1 / v2
+t2 := t1 * v2
+t3 := v1 - t2
+v3 := t3
+v4 := v3
+RETURN v3
+FUNCTION power :
+PARAM v5
+PARAM v6
+t4 := #1
+t5 := t4 + v6
+t6 := t5 - v6
+v7 := t6
+LABEL label0 :
+t7 := v7 - v7
+t8 := #90
+t9 := t7 + t8
+t10 := #89
+t11 := t9 - t10
+t4 := #1
+t12 := t11 + t4
+t13 := #2
+t14 := t12 - t13
+IF v6 > t14 GOTO label1
+GOTO label2
+LABEL label1 :
+t15 := v7 * v5
+v7 := t15 
+t13 := #2
+t4 := #1
+t16 := t13 * t4
+t17 := t16 * v6
+t4 := #1
+t18 := t4 * v6
+t19 := t17 - t18
+t4 := #1
+t20 := t19 - t4
+v6 := t20 
+GOTO label0
+LABEL label2 :
+RETURN v7
+FUNCTION getNumDigits :
+PARAM v8
+t21 := #0
+v9 := t21
+t21 := #0
+IF v8 < t21 GOTO label3
+GOTO label4
+LABEL label3 :
+t23 := #1
+t22 := #0 - t23
+RETURN t22
+LABEL label4 :
+LABEL label5 :
+t21 := #0
+IF v8 > t21 GOTO label6
+GOTO label7
+LABEL label6 :
+t24 := #10
+t25 := v8 / t24
+v8 := t25 
+t13 := #2
+t26 := v9 + t13
+v9 := t26 
+t13 := #2
+t27 := v9 + t13
+v9 := t27 
+t28 := #3
+t29 := v9 - t28
+v9 := t29 
+GOTO label5
+LABEL label7 :
+RETURN v9
+FUNCTION isNarcissistic :
+PARAM v10
+t4 := #1
+t30 := t4 + v10
+t4 := #1
+t31 := t30 - t4
+ARG t31
+t32 := CALL getNumDigits
+v11 := t32
+t21 := #0
+v12 := t21
+v13 := v10
+LABEL label8 :
+t21 := #0
+IF v13 > t21 GOTO label9
+GOTO label10
+LABEL label9 :
+t23 := #10
+ARG t23
+ARG v13
+t33 := CALL mod
+v14 := t33 
+t34 := v13 - v14
+t23 := #10
+t35 := t34 / t23
+v13 := t35 
+ARG v11
+ARG v14
+t36 := CALL power
+t37 := v12 + t36
+v12 := t37 
+GOTO label8
+LABEL label10 :
+IF v12 == v10 GOTO label11
+GOTO label12
+LABEL label11 :
+t4 := #1
+RETURN t4
+GOTO label13
+LABEL label12 :
+t21 := #0
+RETURN t21
+LABEL label13 :
+FUNCTION main :
+t21 := #0
+v15 := t21
+t38 := #400
+v16 := t38
+LABEL label16 :
+t39 := #500
+IF v16 < t39 GOTO label17
+GOTO label18
+LABEL label17 :
+WRITE v16
+ARG v16
+t40 := CALL isNarcissistic
+t4 := #1
+IF t40 == t4 GOTO label14
+GOTO label15
+LABEL label14 :
+WRITE v16
+t4 := #1
+t41 := v15 + t4
+v15 := t41 
+LABEL label15 :
+t4 := #1
+t42 := v16 + t4
+v16 := t42 
+GOTO label16
+LABEL label18 :
+WRITE v15
+RETURN v15
